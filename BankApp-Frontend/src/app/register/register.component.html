@@ -1,0 +1,75 @@
+<body>
+  <!-- header -->
+  <!-- Image and text -->
+  <nav class="navbar navbar-light bg-ligh">
+    <a class="navbar-brand text-primary ms-4" href="#">
+      <i class="fa-solid fa-building-columns"></i>
+      Bank App
+    </a>
+  </nav>
+
+  <!-- register loading page -->
+  <div *ngIf="registerSuccess" class="container text-center mt-5">
+    <h1>Your Data getting Registered... Please Wait...</h1>
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- mainBody -->
+
+  <!-- image -->
+  <div *ngIf="!registerSuccess" class="container">
+    <div class="row">
+      <div class="col-6 mt-5 pt-2 imageDiv">
+        <img src="https://media.womensweekly.com.sg/public/2020/07/Money-Management-Lessons-For-Children.gif" alt="">
+      </div>
+
+      <!-- forms -->
+      <div class="col-1"></div>
+      <div class="col-4 loginFormDiv">
+        <form>
+          <div>
+            <h2 class="mb-3 text-primary">Register</h2>
+          </div>
+          <div>
+            <form (ngSubmit)="register()" [formGroup] = "registerForm">
+
+              <div class="mb-3 form-floating">
+                <input name = "username" formControlName="username" type="text" class="form-control" id="exampleUname" aria-describedby="emailHelp"
+                  placeholder="Username">
+                <label for="exampleUname" class="form-label">Username</label>
+                <div *ngIf="this.registerForm.get('username')?.errors && this.registerForm.get('username')?.touched" class="text-danger">*invalid Username</div>
+
+
+              </div>
+
+              <div class="mb-3 form-floating">
+                <input name="acno" formControlName="acno" type="text" class="form-control" id="exampleAcNo" aria-describedby="emailHelp"
+                  placeholder="Account Number">
+                <label for="exampleAcNo" class="form-label">Account Number</label>
+                <div *ngIf="this.registerForm.get('acno')?.errors && this.registerForm.get('acno')?.touched" class="text-danger">*invalid Account Number</div>
+
+              </div>
+
+
+              <div class="mb-3 form-floating">
+                <input name="password" formControlName="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <div *ngIf="this.registerForm.get('password')?.errors && this.registerForm.get('password')?.touched" class="text-danger">*invalid Password</div>
+
+              </div>
+              <div class="">
+                <h6 class="text-danger">{{registrationError}}</h6>
+                <button type="submit" class="btn btn-primary col-4">Submit</button>
+                <p class="mt-3">Back to <a routerLink="/login">Login</a></p>
+              </div>
+            </form>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>

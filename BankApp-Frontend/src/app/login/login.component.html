@@ -1,0 +1,61 @@
+<!-- header -->
+<!-- Image and text -->
+
+<body>
+
+  <nav class="navbar navbar-light">
+    <a class="navbar-brand text-primary ms-4" href="#">
+      <i class="fa-solid fa-building-columns"></i>
+      Bank App
+    </a>
+  </nav>
+
+  <!-- mainBody -->
+
+  <!-- image -->
+  <div class="container">
+    <div class="row">
+      <div class="col-6 mt-5 pt-2 imageDiv">
+        <img src="https://i.pinimg.com/originals/a6/ff/a5/a6ffa54c9b06f7030aecd93f011dcb60.gif" alt="">
+      </div>
+
+      <!-- forms -->
+      <div class="col-1"></div>
+      <div class="col-4 loginFormDiv">
+        <div>
+          <h2 class="mb-3 text-primary">Login</h2>
+        </div>
+        <div>
+          <form (ngSubmit)="login()" [formGroup]="loginForm">
+            <div class="mb-3">
+              <label for="exampleAcNo" class="form-label">Account Number</label>
+              <input name="acno" formControlName="acno" type="text" class="form-control" id="exampleAcNo"
+                aria-describedby="emailHelp">
+              <div *ngIf="this.loginForm.get('acno')?.errors && this.loginForm.get('acno')?.touched"
+                class="text-danger">*invalid accout number</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input name="password" formControlName="password" type="password" class="form-control"
+                id="exampleInputPassword1">
+            </div>
+            <div class="">
+              <div class="">
+                <h6 class="text-danger">{{loginError}}</h6>
+                <button type="submit" class="btn btn-primary col-4">Sign In
+                  <div *ngIf="loginSuccess" class="spinner-border" style="width: 1rem; height: 1rem;" role="status">
+                    <span class="visually-hidden"> Loading...</span>
+                  </div>
+                </button>
+              </div>
+              <div>
+                <p class="mt-3">Not a user? <a routerLink="/register"> &emsp;Register</a></p>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>

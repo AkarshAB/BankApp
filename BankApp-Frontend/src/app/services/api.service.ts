@@ -1,0 +1,70 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+
+
+const options = {
+  headers:new HttpHeaders()
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  constructor(private http:HttpClient) { }
+  register (username:any,acno:any,password:any){
+
+  const body = {
+    username,
+    acno,
+    password
+  }
+
+    return this.http.post('http://localhost:5000/register', body)
+  }
+
+  //login API function
+  login (acno:string, password:string){
+
+    const body = {
+      acno,
+      password
+    }
+    return this.http.post('http://localhost:5000/login',body);
+  }
+
+  //to append token to the header
+  appendToken(){
+    //get token from local storage
+    let token = localStorage.getItem('token')
+    
+    //create httpheader
+    let headers = new HttpHeaders()
+
+    if (token) {
+      headers = headers.append('verify-token',token);
+      options.headers = headers
+    }
+    return options
+  }
+
+  //balance api function
+  getBalance (acno:any){
+    return this.http.get('http://localhost:5000/getbalance/'+acno,this.appendToken())
+    //we must overload this function to make the error on appendToken disappear
+  }
+
+  //fund transfer
+  fundtransfer(toAcno:any,password:any,amount:any){
+    const body = {
+      toAcno,
+      password,
+      amount
+    }
+    return this.http.post('http://localhost:5000/fundtransfer',body,this.appendToken())
+  }
+  
+  transactionHistory(){
+   return this.http.get('http://localhost:5000/transactions',this.appendToken())
+  }
+}

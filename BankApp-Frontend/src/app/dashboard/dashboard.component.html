@@ -1,0 +1,201 @@
+<app-delete-acno [deleteAcno]="acno" (onCancel)="cancelDeleteConfirm()"></app-delete-acno>
+<!-- header -->
+
+<div *ngIf="!deleteConfirm">
+  <nav class="navbar navbar-expand-lg ">
+    <div class="container-fluid">
+      <a class="navbar-brand text-primary ms-4" href="#">
+        <i class="fa-solid fa-building-columns"></i>
+        Bank App
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end me-5" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+  
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Services
+            </a>
+            <ul class="dropdown-menu">
+              <li (click)="getBalance()"><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" href="#offcanvasExample">Balance Enquiry</a></li>
+              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Fund Transfer </a></li>
+              <li><a class="dropdown-item" routerLink="/transactions">Transaction History</a></li>
+              <li><a class="dropdown-item" (click)="deleteAccount()">Remove Account</a></li>
+              <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- logout landing page -->
+    <div *ngIf="logoutSuccess" class="container text-center mt-5">
+      <h1>Your Data getting Registered... Please Wait...</h1>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  
+  <!-- offcanvas -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Balance Enquiry</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div>
+        <p>Hey, <b>{{user}}</b></p>
+        <p>Your Current Balance is: {{balance}}</p>
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Fund Transfer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="fundTransferForm">
+            <input type="text" class="form-control mb-3" placeholder="Credit Account Number" name="creditAcno" formControlName="creditAcno" id="">
+            <div *ngIf="this.fundTransferForm.get('creditAcno')?.errors && this.fundTransferForm.get('creditAcno')?.touched" class="mb-3 text-danger">*Invalid Account Number</div>
+            <input type="text" class="form-control mb-3" placeholder="Amount" name="amount" formControlName="amount" id="">
+            <div class="mb-3 text-danger" *ngIf="this.fundTransferForm.get('amount')?.errors && this.fundTransferForm.get('amount')?.touched">*Invalid Amount</div>
+            <input type="text" class="form-control mb-3" placeholder="Password" name="password" formControlName="password" id="">
+            <div class="mb-3 text-danger" *ngIf="this.fundTransferForm.get('password')?.errors && this.fundTransferForm.get('password')?.touched">*Invalid Password</div>
+  
+            <!-- result -->
+            <div *ngIf="success" class="text-success text-center my-3">
+              {{transferSuccess}}
+            </div>
+  
+            <div *ngIf="!success" class="text-danger text-center my-3">
+              {{transferError}}
+            </div>
+  
+            <div class="modal-footer">
+              <button (click)="dashboardForm()" type="submit" class="btn btn-primary">Transfer</button>
+              <button  data-bs-dismiss="modal" type="submit" class="btn btn-danger">Close</button>
+              <button (click)="reset()" type="submit" class="btn btn-light border">Reset</button>
+              <!-- the ngSubmit given above is also removed as it produces 2 results -->
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <!-- Main Content -->
+  <div *ngIf="!logoutSuccess" class="container">
+    <div class="row">
+      <div class="col-6 text-center">
+        <!-- image -->
+        <img class="mainImg mb-1" src="https://discovertemplate.com/wp-content/uploads/2020/09/DT_G33_Finance-Animated-GIF-Icon-pack.gif" alt="">
+      </div>
+      <div class="col-6">
+        
+        <!-- heading and text -->
+        <h2 class="text-center mt-5 pt-4">Welcome <b>{{user}}</b></h2>
+        <p class="">
+          Introducing XYZ Bank - your go-to banking solution. Our user-friendly platform offers online and mobile banking with secure access to your accounts, bill payments, and powerful account management tools. Enjoy reliable customer support and take advantage of special promotions and competitive interest rates. Choose XYZ Bank for a seamless and secure banking experience.
+        </p>
+  
+        <div class="collapse" id="collapseExample">
+          <div class="">
+            Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
+          </div>
+        </div>
+  
+  
+        <button (click)="collapse()" class="btn btn-outline-info mt-3" data-bs-toggle="collapse" data-bs-target="#collapseExample">Read 
+          <span *ngIf="!isCollapse">More</span>
+          <span *ngIf="isCollapse">Less</span>
+         </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="text-center text-white" style="background-color: rgb(153, 227, 243)">
+    <!-- Grid container -->
+    <div class="container pt-4">
+      <!-- Section: Social media -->
+      <section class="mb-4">
+        <!-- Facebook -->
+        <a
+          class="btn btn-link btn-floating btn-lg text-dark m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-facebook-f"></i
+        ></a>
+  
+        <!-- Twitter -->
+        <a
+          class="btn btn-link btn-floating btn-lg text-dark m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-twitter"></i
+        ></a>
+  
+        <!-- Google -->
+        <a
+          class="btn btn-link btn-floating btn-lg text-dark m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-google"></i
+        ></a>
+  
+        <!-- Instagram -->
+        <a
+          class="btn btn-link btn-floating btn-lg text-dark m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-instagram"></i
+        ></a>
+  
+        <!-- Linkedin -->
+        <a
+          class="btn btn-link btn-floating btn-lg text-dark m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <!-- Github -->
+        <a
+          class="btn btn-link btn-floating btn-lg text-dark m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-github"></i
+        ></a>
+      </section>
+      <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+  
+    <!-- Copyright -->
+    <div class="text-center text-dark p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      © 2020 Copyright:
+      <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+</div>

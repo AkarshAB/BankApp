@@ -1,0 +1,17 @@
+nav{
+  background-color: rgb(153, 227, 243);
+}
+
+.mainImg{
+  width: 600px;
+  height: 400px;
+  margin-left: -100px;
+}
+
+/* .dropdown-toggle{
+ color: ; 
+} */
+
+p{
+  text-align: justify;
+}
